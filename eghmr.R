@@ -1,3 +1,6 @@
+
+
+#old########################
 oper <- read.csv("CTSH_OPER_MARGIN.csv")
 View(oper)
 
@@ -28,5 +31,47 @@ colnames(operCTSH) <- c("Dates", "CTSH")
 View(operCTSH)
 
 xts
+
+
+
+#new####################
+install.packages("Rblpapi")
+library("Rblpapi")
+
+blpConnect(host = getOption("blpHost", "localhost"),
+           port = getOption("blpPort", 8194L), default = TRUE)
+
+blpConnect()
+
+opt <- c('PeriodicitySelection' = 'Quarterly')
+
+overrd <- c("START_DT" = "2011", "END_DT = 20181107")
+
+#Equity - Profit_Margin#################
+prof.ctsh <- bds("CTSH US Equity", "PROF_MARGIN")
+View(prof.ctsh)
+
+prof.hclt <-bdh("HCLT IN Equity", c("PROF_MARGIN"), start.date = as.Date('2018-01-01'),)
+View(prof.hclt)
+
+
+
+
+plot(prof.ctsh, type = "line")
+
+
+oper.ctsh <- bdh("CTSH US Equity", c("OPER_MARGIN"), start.date=Sys.Date()-30000)
+View(oper.ctsh)
+s <- oper.ctsh - prof.ctsh
+
+install.packages("quantmod")
+
+
+
+
+
+
+
+
 
 
